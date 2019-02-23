@@ -54,6 +54,6 @@ def CheckInside(dot,pts,checks):
         
 #-----------------------------------------------------#
 
-Points=[(0,0),(0,1),(1,1),(1,0)]
-dot=(1.5,1.5)
-print(CheckInside(dot,Points,1))
+# Points=[(0,0),(0,1),(1,1),(1,0)]
+# dot=(1.5,1.5)
+# print(CheckInside(dot,Points,1))
