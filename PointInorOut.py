@@ -8,9 +8,11 @@ def distance(a,b):#Finding Distance
     return math.sqrt(distSq)
 
 def CheckBetween(x,a,b):#Check if x is between a and b
-    if(a>b):
-        (a,b)=(b,a)
-    if(a<=x and x<=b):
+    if(x==-1):
+        return False
+    if(a[0]>b[0]):
+        (a[0],b[0])=(b[0],a[0])
+    if(a[0]<=x[0] and x[0]<=b[0]):
         return True
     return False
 
