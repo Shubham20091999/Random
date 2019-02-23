@@ -1,6 +1,5 @@
 import math
 
-
 def distance(a,b):#Finding Distance
     distSq=0
     for i in range(0,len(a)):
@@ -52,10 +51,3 @@ def CheckInside(dot,pts,checks):
         
         add+=change
     return False#if Count is not a multiple of 2 point is outside
-
-        
-#-----------------------------------------------------#
-
-# Points=[(0,0),(0,1),(1,1),(1,0)]
-# dot=(1.5,1.5)
-# print(CheckInside(dot,Points,1))
