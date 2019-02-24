@@ -1,6 +1,8 @@
 import sys
+import math
 
 def MakePointsCyclic(l):#Make the points in all posible cyclic order
+    l=Arrange(l)
     new=[[l[0],l[1]]]
     temp=[]
     for i in range(2,len(l)):
@@ -83,3 +85,92 @@ def CheckBetween(x,a,b,p,q):#checking if the x lies between (a and b) and (p and
         return True
     
     return False
+
+def distance(a,b):#Finding Distance
+    distSq=0
+    for i in range(0,len(a)):
+        distSq+=(pow((a[i]-b[i]),2))
+    return math.sqrt(distSq)
+
+def Arrange(l):#arange in increasing order of distance to make maximum intersections
+    dist=0
+    maxdis=0
+    pos=-1
+    for i in range(0,len(l)-1):
+        for j in range(i+1,len(l)):
+            if(l[i]==l[j]):
+                l.pop(j)
+                continue
+            maxdis=distance(l[i],l[j])
+            if(dist<=maxdis):
+                maxdis==dist
+                pos=j
+        if(pos!=-1):
+            k=l[j]
+            l.pop(j)
+            l=PutAt(k,i+1,l)
+    return l
+def AreaPoly(l):
+    n=len(l)-1
+    sum=l[n][0]*l[0][1]-l[0][0]*l[n][1]
+    for i in range(0,n):
+        sum+=l[i][0]*l[i+1][1]-l[i][1]*l[i+1][0]
+    return sum/2
+def PeriPoly(l):
+    peri=0
+    for i in range(0,len(l)):
+        peri+=distance(l[i],l[i-1])
+    return peri
+
+def MinMaxPari(z,ty):
+    l=MakePointsCyclic(z)
+    maxperi=0
+    minperi=math.inf
+    zmax=[]
+    zmin=[]
+    
+    for i in range(0,len(l)):
+        peri=abs(PeriPoly(l[i]))
+        if(ty>=0):
+            if(maxperi<peri):
+                maxperi=peri
+                zmax=l[i]
+        if(ty<=0):
+            if(minperi>peri):
+                minperi=peri
+                zmin=l[i]
+    if(ty>0):
+        return (maxperi,zmax)
+    if(ty<0):
+        return (minperi,zmin)
+            
+    return(minperi,maxperi,zmin,zmax)
+
+def MinMaxAreaPoly(a,ty):
+    l=MakePointsCyclic(a)
+    maxarea=0
+    minarea=math.inf
+    zmax=[]
+    zmin=[]
+    
+    for i in range(0,len(l)):
+        area=abs(AreaPoly(l[i]))
+        if(ty>=0):
+            if(maxarea<area):
+                maxarea=area
+                zmax=l[i]
+        if(ty<=0):
+            for i in range(0,len(l)):
+                area=abs(AreaPoly(l[i]))
+                if(minarea>area):
+                    minarea=area
+                    zmin=l[i]
+    if(ty>0):
+            return (maxarea,zmax)
+    if(ty<0):
+            return (minarea,zmin)
+    return(minarea,maxarea,zmin,zmax)
+    
+
+l=[(1,0),(0,1),(-1,0),(0,-1)]
+print(MinMaxPari(l,0))
