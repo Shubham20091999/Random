@@ -12,3 +12,4 @@ BODMAS :- Give Value of any Mathematical expression
 
 GiveValueOf :- Give Value of any Mathematical expression including any of the functions
 
+Derivative:- Code to find derivative of any function given in string form
