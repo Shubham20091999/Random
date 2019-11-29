@@ -11,3 +11,5 @@ MakeAllPossiblePolygons :- Making a given array of coordinates into all possible
 BODMAS :- Give Value of any Mathematical expression
 
 GiveValueOf :- Give Value of any Mathematical expression including any of the functions
+
+MineSweeper :-.......Self explanatory 
