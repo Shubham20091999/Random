@@ -116,7 +116,7 @@ def firstMove(m,n):
             Moved(m,n)
         else:
             ChangeCell(m,n,cell)
-        cell-=1
+        cellsLeft-=1
 
 #########################
 first=True
