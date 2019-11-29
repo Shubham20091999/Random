@@ -97,7 +97,10 @@ def Move(m,n):
     global cellsLeft
     cell=GetCell(m,n,True)
     if(cell=='X'):
-        Error("Game Over")
+        print("Game Over!!!")
+        input()
+        sys.exit()
+
     if(GetCell(m,n)=='?'):
         if(cell==0):
             ChangeCell(m,n,0)    
@@ -105,11 +108,15 @@ def Move(m,n):
         else:
             ChangeCell(m,n,cell)
         cellsLeft-=1
+
 def firstMove(m,n):
     global cellsLeft
     cell=GetCell(m,n,True)
     if(cell=='X'):
-        Error("Game Over")
+        print("Game Over")
+        input()
+        sys.exit()
+
     if(GetCell(m,n)=='?'):
         if(cell==0 or cell==1):
             ChangeCell(m,n,cell)
@@ -117,17 +124,24 @@ def firstMove(m,n):
         else:
             ChangeCell(m,n,cell)
         cellsLeft-=1
-
+def isInside(x,y):
+    if(x>=0 and x<gridSize[0] and y>=0 and y<gridSize[1]):
+        return True
+    return False    
 #########################
-first=True
+
+first=False
 while cellsLeft>0:
     PrintTable()
     print("")
-    PrintTable(True)
+    # PrintTable(True)
     print("--------")
     i=input().split()
     if(i[0]=='F' or i[0]=='f'):
-        ChangeCell(int(i[1]),int(i[2]),'P')
+        if(GetCell(int(i[1]),int(i[2]))=='F'):
+            ChangeCell(int(i[1]),int(i[2]),'?')
+        else:
+            ChangeCell(int(i[1]),int(i[2]),'F')
     elif(not(first)):
         Move(int(i[0]),int(i[1]))
     elif(first):
@@ -137,4 +151,6 @@ while cellsLeft>0:
     
 print("-----")
 PrintTable()
-Error("YOU WON!!!")
+print("YOU WON!!!")
+input()
+sys.exit()
