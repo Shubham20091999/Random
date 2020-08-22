@@ -1,3 +1,6 @@
+from os import close
+
+
 class Graph:
     def __init__(self, n, lst):
         # lst list of edges
@@ -60,5 +63,50 @@ class Graph:
                 stack.pop(-1)
         return structure
 
-g = Graph(5, [(0, 4), (0, 1), (1, 4), (1, 3), (2, 3)])
-print(g.DFS_Tree(1))
+
+class Dij(Graph):
+    def __init__(self, n, lst) -> None:
+        self.size = n
+        self.graph = [[] for _ in range(n)]
+        self.wt = {}
+        for e in lst:
+            self.graph[e[0]].append(e[1])
+            self.graph[e[1]].append(e[0])
+            self.wt[(e[0], e[1])] = e[2]
+            self.wt[(e[1], e[0])] = e[2]
+            
+    def search(self, head, tail):
+        dist = [float('inf')] * self.size
+        dist[head] = 0
+        parent = [None]*self.size
+        closed = [False]*self.size
+        while(True):
+            p = -1
+            m = float('inf')
+            for i, d in enumerate(dist):
+                if(closed[i]==False):
+                    if(d < m):
+                        p = i
+                        m = d
+            closed[p]=True
+            if(p == tail):
+                break
+            for child in self.graph[p]:
+                if(dist[child] > dist[p]+self.wt[(p, child)]):
+                    dist[child] = dist[p]+self.wt[(p, child)]
+                    parent[child] = p
+        ans=[tail]
+        while True:
+            if(parent[ans[0]]):
+                ans.insert(0,parent[ans[0]])
+            else:
+                break
+        ans.insert(0,head)
+        return ans
+
+# g = Dij(5, [(0, 4), (0, 1), (1, 4), (1, 3), (2, 3)])
+# print(g.search(0,2))
+
+edges=[(0,1,7),(0,2,2),(1,2,3),(2,4,10),(4,5,6),(0,6,7),(6,7,3),(6,8,12),(7,8,8),(8,5,5),(1,3,4),(2,3,4),(3,4,3)]
+d = Dij(9,edges)
+d.search(0,5)
