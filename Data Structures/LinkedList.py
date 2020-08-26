@@ -121,24 +121,27 @@ class LinkedList:
         return self
 
     def getNode_index(self, pos, preNodeDiff=0, nxtNodeDiff=0):
-        h = self.head
-        preNode = self.head
-        while pos > 0:
-            h = h.nxt
-            pos -= 1
-            if(preNodeDiff == 0):
-                preNode = preNode.nxt
-            else:
-                preNodeDiff -= 1
-        if(preNodeDiff != 0):
-            preNode = None
-        nxtNode = h
-        while nxtNodeDiff > 0 and nxtNode != None:
-            nxtNode = nxtNode.nxt
-            nxtNodeDiff -= 1
-        if(nxtNodeDiff != 0):
-            nxtNode = None
-        return (h, preNode, nxtNode)
+        try:
+            h = self.head
+            preNode = self.head
+            while pos > 0:
+                h = h.nxt
+                pos -= 1
+                if(preNodeDiff == 0):
+                    preNode = preNode.nxt
+                else:
+                    preNodeDiff -= 1
+            if(preNodeDiff != 0):
+                preNode = None
+            nxtNode = h
+            while nxtNodeDiff > 0 and nxtNode != None:
+                nxtNode = nxtNode.nxt
+                nxtNodeDiff -= 1
+            if(nxtNodeDiff != 0):
+                nxtNode = None
+            return (h, preNode, nxtNode)
+        except:
+            raise IndexError
 
 
 l = LinkedList([1])
