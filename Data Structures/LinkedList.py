@@ -12,7 +12,7 @@ class Node:
 
 class LinkedList:
     # So many if statements bcuz the Location in memory changes if the type in converted from Node to None
-    def __init__(self, arr=[]) -> None:
+    def __init__(self, arr: list = []) -> None:
         if(len(arr) == 0):
             # better initilize as Node(None,None)
             # As when changing the next node from None the memory changes
@@ -24,6 +24,12 @@ class LinkedList:
             for i in range(1, len(arr)):
                 h.nxt = Node(arr[i], None)
                 h = h.nxt
+
+    @staticmethod
+    def initilize(node: Node):
+        l = LinkedList()
+        l.head = node
+        return l
 
     def __repr__(self) -> str:
         h = self.head
@@ -39,72 +45,13 @@ class LinkedList:
             h = h.nxt
         return h
 
-    def insert_element(self, pos, val):
-        try:
-            if(pos == 0):
-                self.head = Node(val, self.head)
-            elif(pos == 1):
-                # IndexError if(self.head == None):
-                self.head.nxt = Node(val, self.head.nxt)
-            elif(pos == -1):
-                h = self.head
-                if(h == None):
-                    self.head = Node(val, None)
-                elif(h.nxt == None):
-                    self.head.nxt = Node(val, self.head.nxt)
-                else:
-                    while h.nxt != None:
-                        h = h.nxt
-                    h.nxt = Node(val, None)
-            elif(pos > 1):
-                # IndexError if(self.head == None):
-                h = self.head.nxt
-                pos -= 1
-                while pos > 1:
-                    h = h.nxt
-                    pos -= 1
-                h.nxt = Node(val, h.nxt)
-            else:
-                raise Exception
-        except:
-            raise IndexError
-
-    def remove_index(self, pos):
-        try:
-            if(pos == 0):
-                v = self.head.val
-                self.head = self.head.nxt
-                return v
-            elif(pos == 1):
-                # IndexError if(self.head == None or self.head.nxt == None):
-                v = self.head.nxt.val
-                self.head.nxt = self.head.nxt.nxt
-                return v
-            elif(pos == -1):
-                # IndexError if(self.head == None):
-                if(self.head.nxt == None):
-                    v = self.head.val
-                    self.head = None
-                    return v
-                else:
-                    h = self.head
-                    while h.nxt.nxt != None:
-                        h = h.nxt
-                    v = h.nxt.val
-                    h.nxt = None
-                    return v
-            elif(pos > 1):
-                h = self.head
-                while pos > 1:
-                    h = h.nxt
-                    pos -= 1
-                v = h.nxt.val
-                h.nxt = h.nxt.nxt
-                return v
-            else:
-                raise Exception
-        except:
-            raise IndexError('Index out of range')
+    def len(self):
+        l=0
+        h=self.head
+        while h!=None:
+            l+=1
+            h=h.nxt
+        return l
 
     def reverse(self):
         # not(len=0 or 1)
@@ -117,32 +64,79 @@ class LinkedList:
                 nxt.nxt = h
                 h = nxt
                 nxt = temp
-            return h
+            return LinkedList.initilize(h)
         return self
 
-    def getNode_index(self, pos, preNodeDiff=0, nxtNodeDiff=0):
+    def getNode_element(self, val, preNodeDiff=0):
+        if(preNodeDiff < 0):
+            raise IndexError('Diff should be positive')
         try:
             h = self.head
             preNode = self.head
-            while pos > 0:
+            pos = 0
+            while h.val != val:
+                pos += 1
                 h = h.nxt
-                pos -= 1
                 if(preNodeDiff == 0):
                     preNode = preNode.nxt
                 else:
                     preNodeDiff -= 1
             if(preNodeDiff != 0):
                 preNode = None
-            nxtNode = h
-            while nxtNodeDiff > 0 and nxtNode != None:
-                nxtNode = nxtNode.nxt
-                nxtNodeDiff -= 1
-            if(nxtNodeDiff != 0):
-                nxtNode = None
-            return (h, preNode, nxtNode)
+            return (pos, h, preNode)
         except:
-            raise IndexError
+            raise ValueError('Value not found in the list')
 
+    def getNode_index(self, pos, preNodeDiff=0):
+        if(preNodeDiff < 0):
+            raise IndexError('Diff should be positive')
+        try:
+            h = self.head
+            preNode = self.head
+            if(pos >= 0):
+                while pos > 0:
+                    h = h.nxt
+                    pos -= 1
+                    if(preNodeDiff == 0):
+                        preNode = preNode.nxt
+                    else:
+                        preNodeDiff -= 1
+            elif(pos == -1):
+                while h.nxt != None:
+                    h = h.nxt
+                    if(preNodeDiff == 0):
+                        preNode = preNode.nxt
+                    else:
+                        preNodeDiff -= 1
+            else:
+                raise Exception
 
-l = LinkedList([1])
-print(l.getNode_index(0, 1, 1))
+            if(preNodeDiff != 0):
+                preNode = None
+            return (h, preNode)
+        except:
+            raise IndexError('Index out of range')
+
+    def remove_element(self, e):
+        pos, node, prenode = self.getNode_element(e, 1)
+        if(prenode == None):
+            self.head = self.head.nxt
+        else:
+            prenode.nxt = node.nxt
+        return pos
+
+    def remove_index(self, pos):
+        node, prenode = self.getNode_index(pos, 1)
+        if(prenode == None):
+            self.head = self.head.nxt
+        else:
+            prenode.nxt = node.nxt
+
+    def insert_element(self, pos, val):
+        node, prenode = self.getNode_index(pos, 1)
+        if(prenode == None):
+            self.head = Node(val, self.head)
+        elif(pos == -1):
+            node.nxt = Node(val, None)
+        else:
+            prenode.nxt = Node(val, node)
