@@ -1,6 +1,3 @@
-from requests.api import head
-
-
 class Node:
     def __init__(self, v, l=None, r=None):
         self.val = v
@@ -9,12 +6,26 @@ class Node:
 
 
 class BinaryTree:
-    def __init__(self, a: list = []):
-        if(len(a) == 0):
+    def __init__(self, arr: list = []):
+        if(len(arr) == 0 or arr[0] == None):
             self.head = None
         else:
-            self.head = Node(a[0])
-            BinaryTree.__helper(a[1:], [self.head])
+            self.head = Node(arr[0])
+            prevNode = [self.head]
+            i = 1
+            try:
+                while True:
+                    p = prevNode.pop(0)
+                    if(arr[i] != None):
+                        p.left = Node(arr[i])
+                        prevNode.append(p.left)
+                    i += 1
+                    if(arr[i] != None):
+                        p.right = Node(arr[i])
+                        prevNode.append(p.right)
+                    i += 1
+            except IndexError:
+                pass
 
     @staticmethod
     def __helper(arr, prevNodeArr):
@@ -38,7 +49,6 @@ class BinaryTree:
             BinaryTree.__helper(arr, currActiveNodes)
 
     # https://www.geeksforgeeks.org/insertion-in-a-binary-tree-in-level-order/
-
     def insert(self, val):
         if(self.head == None):
             self.head = Node(val)
@@ -58,7 +68,37 @@ class BinaryTree:
             else:
                 q.append(temp.right)
 
+    def listForm(self):
+        q = [self.head]
+        ans = [self.head.val]
+        temp = []
+        while q:
+            while q:
+                p = q.pop(0)
+
+                if(p.left != None):
+                    ans.append(p.left.val)
+                    temp.append(p.left)
+                else:
+                    ans.append(None)
+                if(p.right != None):
+                    ans.append(p.right.val)
+                    temp.append(p.right)
+                else:
+                    ans.append(None)
+            q, temp = temp, q
+        i = len(ans)-1
+        for i in range(len(ans)-1, -1, -1):
+            if(ans[i] != None):
+                break
+        del ans[i+1:]
+        return ans
+
+    def __repr__(self):
+        return str(self.listForm())
+
     def getDeepest(self):
+        # BFS
         if(self.head == None):
             return None, None, None
         q = [self.head]
@@ -226,7 +266,5 @@ class BinaryTree:
         return ans
 
 
-bt = BinaryTree([1, 2, 3, 4, 5, 6, 7])
-print(bt.dft_postorder_recursive())
-print(bt.dft_postorder_iterative())
-print(bt.dft_postorder_recursive())
+bt = BinaryTree([1, 2, 3, None, None, 6, 7])
+print(bt)
