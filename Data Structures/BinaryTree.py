@@ -148,6 +148,19 @@ class BinaryTree:
         BinaryTree.__dft_preorder_helper(self.head, ans)
         return ans
 
+    @staticmethod
+    def __dft_postorder_helper(node, ans):
+        if(node == None):
+            return
+        BinaryTree.__dft_postorder_helper(node.left, ans)
+        BinaryTree.__dft_postorder_helper(node.right, ans)
+        ans.append(node.val)
+
+    def dft_postorder_recursive(self):
+        ans = []
+        BinaryTree.__dft_postorder_helper(self.head, ans)
+        return ans
+
     # $$$$$$$$$$$$$$$
     def dft_inorder_iterative(self):
         # Space - O(1)
@@ -175,21 +188,45 @@ class BinaryTree:
         ans = []
         curr = self.head
         while curr:
-            ans.append(curr.val)
             if(curr.left != None):
                 pre = curr.left
-                while pre.right != None and pre.right != curr.right:
+                while pre.right != None and pre.right != curr:
                     pre = pre.right
                 if(pre.right == None):
-                    pre.right = curr.right
+                    ans.append(curr.val)
+                    pre.right = curr
                     curr = curr.left
                 else:
                     pre.right = None
                     curr = curr.right
             else:
+                ans.append(curr.val)
                 curr = curr.right
         return ans
 
+    def dft_postorder_iterative(self):
+        # Do opposite of preOrder
+        ans = []
+        curr = self.head
+        while curr:
+            if(curr.right != None):
+                pre = curr.right
+                while(pre.left != None and pre.left != curr):
+                    pre = pre.left
+                if(pre.left == None):
+                    pre.left = curr
+                    ans.insert(0, curr.val)
+                    curr = curr.right
+                else:
+                    curr = curr.left
+                    pre.left = None
+            else:
+                ans.insert(0, curr.val)
+                curr = curr.left
+        return ans
 
-bt = BinaryTree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-print(bt.dft_preorder_recursive())
+
+bt = BinaryTree([1, 2, 3, 4, 5, 6, 7])
+print(bt.dft_postorder_recursive())
+print(bt.dft_postorder_iterative())
+print(bt.dft_postorder_recursive())
