@@ -1,10 +1,12 @@
 from requests.api import head
 
+
 class Node:
     def __init__(self, v, l=None, r=None):
         self.val = v
         self.left = l
         self.right = r
+
 
 class BinaryTree:
     def __init__(self, a: list = []):
@@ -133,6 +135,19 @@ class BinaryTree:
         BinaryTree.__dft_inorder_helper(self.head, ans)
         return ans
 
+    @staticmethod
+    def __dft_preorder_helper(node, ans):
+        if(node == None):
+            return
+        ans.append(node.val)
+        BinaryTree.__dft_preorder_helper(node.left, ans)
+        BinaryTree.__dft_preorder_helper(node.right, ans)
+
+    def dft_preorder_recursive(self):
+        ans = []
+        BinaryTree.__dft_preorder_helper(self.head, ans)
+        return ans
+
     # $$$$$$$$$$$$$$$
     def dft_inorder_iterative(self):
         # Space - O(1)
@@ -176,5 +191,5 @@ class BinaryTree:
         return ans
 
 
-bt = BinaryTree([1, None, 2])
-print(bt.dft_inorder_recursive())
+bt = BinaryTree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+print(bt.dft_preorder_recursive())
