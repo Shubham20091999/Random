@@ -265,6 +265,31 @@ class BinaryTree:
                 curr = curr.left
         return ans
 
+    @staticmethod
+    def invert_helper(node):
+        if(node == None):
+            return
+        node.left, node.right = node.right, node.left
+        BinaryTree.invert_helper(node.left)
+        BinaryTree.invert_helper(node.right)
 
-bt = BinaryTree([1, 2, 3, None, None, 6, 7])
-print(bt)
+    def invert_recursive(self):
+        BinaryTree.invert_helper(self.head)
+
+    def invert_iterative(self):
+        stack = [self.head]
+        while stack:
+            p = stack.pop(-1)
+            p.left, p.right = p.right, p.left
+            if(p.left):
+                stack.append(p.left)
+            if(p.right):
+                stack.append(p.right)
+
+
+# bt = BinaryTree([1, 2, 3, None, None, 6, 7, 8, 9, 10,
+#                  None, 11, 12, None, None, None, 13])
+# bt.invert_recursive()
+# print(bt)
+# bt.invert_iterative()
+# print(bt)
