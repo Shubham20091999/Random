@@ -1,5 +1,6 @@
 # Divide And Concqure
-import math
+# Bad if at some point value goes to infinity
+# import math
 
 
 class Integration:
@@ -10,8 +11,9 @@ class Integration:
     def __helper_do(self, l, r, lv, rv):
         m = (l+r)/2
         mv = self.fn(m)
-        if(abs(mv-(lv+rv)/2)/mv*100 < self.err):
-            return (r-l)*mv
+        theo = (lv+rv)/2
+        if(abs(mv-theo)/mv < self.err):
+            return (r-l)*theo
         return self.__helper_do(l, m, lv, mv)+self.__helper_do(m, r, mv, rv)
 
     def do(self, l, r):
@@ -19,11 +21,12 @@ class Integration:
         rv = self.fn(r)
         return self.__helper_do(l, r, lv, rv)
 
+
 # Example
 
 
 # def fn(x):
-#     return math.sin(x)*math.cos(x)/100
+#     return math.sin(math.cos(x)+math.tan(x)*math.log10(x))
 
 
-# print(Integration(fn, 0.0001).do(0, math.pi/2))
+# print(Integration(fn, 0.0000001).do(0.0000000001, math.pi/2))
