@@ -23,3 +23,5 @@ atleast 3 charcters ___*
 atmost 3 characters ???  
 exactly 3 characters ___  
 atleast 2 and atmost 4 ??__  
+
+Dumb Integration:- Integration using divide and conquer
