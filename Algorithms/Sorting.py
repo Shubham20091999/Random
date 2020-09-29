@@ -36,6 +36,26 @@ def QuickSortL(list, l, r):
     QuickSortL(list, i+1, r)
 
 
-a = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-QuickSortR(a, 0, len(a)-1)
-print(a)
+def kthLargest(list, l, r, k):
+    if(l >= r):
+        return
+    i = PartitionL(list, l, r)
+    if(i == k):
+        return
+    if(i < k):
+        QuickSortL(list, i+1, r)
+    else:
+        QuickSortL(list, l, i-1)
+
+
+# a = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+# QuickSortR(a, 0, len(a)-1)
+# print(a)
+a = [14, 17, 13, 15, 19, 10, 3, 16, 9, 12]
+k=8
+kthLargest(a, 0, len(a)-1,k)
+print(a[k])
+a.sort()
+print(a[k])
+
+
