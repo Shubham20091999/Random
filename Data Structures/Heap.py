@@ -53,6 +53,7 @@ class maxheap:
         else:
             self.heapify_up(i)
 
+    # log(n)
     def insert_extract(self, v):
         if(self.peek() > v):
             self.lst[0], v = v, self.lst[0]
