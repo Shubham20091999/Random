@@ -59,11 +59,3 @@ def kthLargest(list, l, r, k):
         QuickSortLeft(list, i+1, r)
     else:
         QuickSortLeft(list, l, i-1)
-
-
-a = [3, 14, 17, 13, 15, 19, 10, 3, 16, 9, 12,12,14,6,89,12]
-print(a)
-QuickSortRight(a, 0, len(a)-1)
-print(a)
-a.sort()
-print(a)
